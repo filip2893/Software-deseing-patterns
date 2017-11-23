@@ -1,0 +1,203 @@
+
+
+Sjeme: 717
+Mjesta: DZ_1_mjesta.txt
+Senzori: C:\Users\Filip\Desktop\FOI\DIPLOMSKI\2.godina\3.semestar\UzDiz\DZ_1\fstrahij_zadaca_1\DZ_1_senzori.txt
+Aktuatori: DZ_1_aktuatori.txt
+Algoritam: AlgoritamSlijedno
+Trajanje ciklusa dretve: 1
+Broj ciklusa dretve: 20
+Izlaz: proba.txt
+
+-----------------
+UČITANI AKTUATORI 
+-----------------
+
+
+Naziv: otvaranje/zatvaranje vrata
+Tip: 2
+Vrsta: 3
+Min: 0
+Max: 1
+
+Naziv: dizanje/spuštanje rampe
+Tip: 0
+Vrsta: 3
+Min: 0
+Max: 1
+
+Naziv: dizanje/spuštanje platna za ploču
+Tip: 1
+Vrsta: 0
+Min: 0
+Max: 200
+
+Naziv: dizanje/spuštanje televizora
+Tip: 1
+Vrsta: 0
+Min: 0
+Max: 100
+
+Naziv: snimanje kamerom
+Tip: 2
+Vrsta: 3
+Min: 0
+Max: 1
+
+Naziv: paljenje/gašenje lampe
+Tip: 2
+Vrsta: 3
+Min: 0
+Max: 1
+
+-----------------
+UČITANI SENZORI 
+-----------------
+
+
+Naziv: vanjska temperatura
+Tip: 0
+Vrsta: 1
+Min: -40.0
+Max: 60.0
+
+Naziv: unutarnja temperatura
+Tip: 1
+Vrsta: 1
+Min: 0.0
+Max: 40.0
+
+Naziv: vlaga
+Tip: 2
+Vrsta: 0
+Min: 0.0
+Max: 100.0
+
+Naziv: dim
+Tip: 1
+Vrsta: 3
+Min: 0.0
+Max: 1.0
+
+Naziv: prepreka
+Tip: 2
+Vrsta: 3
+Min: 0.0
+Max: 1.0
+
+Naziv: svjetlo
+Tip: 2
+Vrsta: 3
+Min: 0.0
+Max: 1.0
+
+Naziv: kontakt
+Tip: 2
+Vrsta: 3
+Min: 0.0
+Max: 1.0
+
+Naziv: vjetar
+Tip: 0
+Vrsta: 1
+Min: 0.0
+Max: 200.0
+
+Naziv: smjer vjetra
+Tip: 0
+Vrsta: 1
+Min: 0.0
+Max: 8.0
+
+
+---------------------------------------------------------------- 
+UREDJAJI DODANI MJESTU [FOI 1 - ulazna vrata] 
+---------------------------------------------------------------- 
+dodan je aktuator : otvaranje/zatvaranje vrata
+dodan je aktuator : dizanje/spuštanje televizora
+dodan je aktuator : snimanje kamerom
+dodan je aktuator : paljenje/gašenje lampe
+..............................................................
+dodan je senzor : unutarnja temperatura
+dodan je senzor : prepreka
+
+
+---------------------------------------------------------------- 
+UREDJAJI DODANI MJESTU [FOI 1 - dvorišna vrata] 
+---------------------------------------------------------------- 
+dodan je aktuator : snimanje kamerom
+dodan je aktuator : paljenje/gašenje lampe
+..............................................................
+dodan je senzor : unutarnja temperatura
+dodan je senzor : prepreka
+dodan je senzor : svjetlo
+dodan je senzor : kontakt
+
+
+---------------------------------------------------------------- 
+UREDJAJI DODANI MJESTU [FOI 1 - parkiralište] 
+---------------------------------------------------------------- 
+dodan je aktuator : otvaranje/zatvaranje vrata
+dodan je aktuator : dizanje/spuštanje rampe
+dodan je aktuator : snimanje kamerom
+dodan je aktuator : paljenje/gašenje lampe
+..............................................................
+dodan je senzor : prepreka
+dodan je senzor : svjetlo
+
+
+---------------------------------------------------------------- 
+UREDJAJI DODANI MJESTU [FOI 1 - vijećnica] 
+---------------------------------------------------------------- 
+dodan je aktuator : otvaranje/zatvaranje vrata
+dodan je aktuator : dizanje/spuštanje platna za ploču
+dodan je aktuator : paljenje/gašenje lampe
+..............................................................
+dodan je senzor : unutarnja temperatura
+dodan je senzor : vlaga
+dodan je senzor : prepreka
+
+
+---------------------------------------------------------------- 
+UREDJAJI DODANI MJESTU [FOI 1 - knjižnica] 
+---------------------------------------------------------------- 
+dodan je aktuator : dizanje/spuštanje platna za ploču
+dodan je aktuator : dizanje/spuštanje televizora
+dodan je aktuator : paljenje/gašenje lampe
+..............................................................
+dodan je senzor : unutarnja temperatura
+dodan je senzor : dim
+dodan je senzor : svjetlo
+
+
+---------------------------------------------------------------- 
+UREDJAJI DODANI MJESTU [FOI 1 - dvorana 1] 
+---------------------------------------------------------------- 
+dodan je aktuator : otvaranje/zatvaranje vrata
+dodan je aktuator : dizanje/spuštanje platna za ploču
+dodan je aktuator : snimanje kamerom
+..............................................................
+dodan je senzor : vlaga
+dodan je senzor : prepreka
+dodan je senzor : kontakt
+
+
+---------------------------------------------------------------- 
+UREDJAJI DODANI MJESTU [FOI 1 - restoran] 
+---------------------------------------------------------------- 
+dodan je aktuator : otvaranje/zatvaranje vrata
+dodan je aktuator : dizanje/spuštanje platna za ploču
+..............................................................
+dodan je senzor : dim
+dodan je senzor : prepreka
+
+
+---------------------------------------------------------------- 
+UREDJAJI DODANI MJESTU [FOI 1 - sistem sala] 
+---------------------------------------------------------------- 
+dodan je aktuator : otvaranje/zatvaranje vrata
+dodan je aktuator : paljenje/gašenje lampe
+..............................................................
+dodan je senzor : prepreka
+dodan je senzor : svjetlo
+
