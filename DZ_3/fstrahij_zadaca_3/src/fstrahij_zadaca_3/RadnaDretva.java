@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MVC.model;
+package fstrahij_zadaca_3;
 
 import chainofresponsibility.Obrada;
 import chainofresponsibility.Uredjaj;
@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import proxy.Izlaz;
-import proxy.Spremnik;
 import MVC.controller.singleton.ThingsOfFOI;
 
 /**
@@ -199,15 +197,6 @@ public class RadnaDretva extends Thread {
     @Override
     public synchronized void start() {
         super.start(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void zapisiUDatoteku() {
-        izlaz = tof.getIzlaz();
-        int brl = 500;//tof.getBrl();
-        String izlaz_dat = tof.getIzlaz_dat();
-
-        Izlaz iz = new Spremnik(brl, izlaz, izlaz_dat);
-        iz.zapisi();
     }
 
 }

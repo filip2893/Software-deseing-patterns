@@ -11,14 +11,12 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import visitor.Element;
-import visitor.Visitor;
 
 /**
  *
  * @author Filip
  */
-public class Aktuator implements Cloneable, Component, Uredjaj, Element {
+public class Aktuator implements Cloneable, Component, Uredjaj{
 
     private String naziv;
     private int tip, vrsta, min, max, id, vrCj, ispravan, neispravan;
@@ -163,11 +161,6 @@ public class Aktuator implements Cloneable, Component, Uredjaj, Element {
     @Override
     public String obradi() {
         return "AKTUATOR";
-    }
-
-    @Override
-    public void prihvati(Visitor v) {
-        v.visit(this);
     }
 
 }

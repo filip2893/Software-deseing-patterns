@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MVC.controller;
+package MVC.model;
 
+import MVC.model.BazaPodataka;
 import MVC.model.BazaPodataka;
 import MVC.model.composite.Aktuator;
 import MVC.model.composite.Mjesto;

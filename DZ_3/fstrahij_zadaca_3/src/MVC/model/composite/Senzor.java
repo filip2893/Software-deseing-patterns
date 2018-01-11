@@ -10,14 +10,12 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Locale;
 import MVC.controller.singleton.ThingsOfFOI;
-import visitor.Element;
-import visitor.Visitor;
 
 /**
  *
  * @author Filip
  */
-public class Senzor implements Cloneable, Component, Uredjaj, Element{
+public class Senzor implements Cloneable, Component, Uredjaj{
 
     private String naziv;
     private int tip, vrsta, id, vrCj, i, ispravan, neispravan;
@@ -147,12 +145,6 @@ public class Senzor implements Cloneable, Component, Uredjaj, Element{
     @Override
     public String obradi() {
         return "SENZOR";
-    }
-
-    @Override
-    public void prihvati(Visitor v) {
-        v.visit(this);
-    }
-    
+    }    
     
 }

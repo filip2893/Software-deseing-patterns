@@ -5,13 +5,13 @@
  */
 package MVC.controller.singleton;
 
-import MVC.controller.ObradaPodataka;
+import MVC.model.ObradaPodataka;
 import MVC.model.BazaPodataka;
 import chainofresponsibility.Obrada;
 import chainofresponsibility.Uredjaj;
 import fstrahij_zadaca_3.GeneratorSlucajnihBrojeva;
 import MVC.model.composite.Mjesto;
-import MVC.model.RadnaDretva;
+import fstrahij_zadaca_3.RadnaDretva;
 import java.util.ArrayList;
 import java.util.List;
 import MVC.model.composite.Aktuator;
