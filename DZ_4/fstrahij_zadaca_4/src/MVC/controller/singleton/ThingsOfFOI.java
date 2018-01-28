@@ -18,28 +18,37 @@ import MVC.model.composite.Senzor;
 import MVC.model.Raspored;
 import MVC.view.DonjiProzor;
 import MVC.view.GornjiProzor;
+import java.util.HashMap;
+import java.util.Map;
 import memento.Caretaker;
 import memento.Originator;
+import pipesAndFilters.Filter;
+import pipesAndFilters.FilterAktuatora;
+import pipesAndFilters.FilterSenzora;
 
 /**
  *
  * @author Filip
  */
-public class ThingsOfFOI {
+public class ThingsOfFOI{
 
     private static volatile ThingsOfFOI thingsOfFOI;
+    
     private String algoritam, izlaz_dat, izlaz = "";
     private long sjeme;
     private int trajanje_ciklusa, br_ciklusa, br, brk, brs, kmin, kmax, kpov, cp;
+    private int max_br_ur;
     private double pi;
     private List<Aktuator> aktuators;
     private List<Senzor> senzors;
     private List<Mjesto> mjesta;
     private List<Raspored> raspored;
+    private List<Object> rezervniUredjaji = new ArrayList<>();
     private GeneratorSlucajnihBrojeva gen = new GeneratorSlucajnihBrojeva();
     private GornjiProzor gornjiProzor;
     private DonjiProzor donjiProzor;
-
+    private HashMap<Mjesto, Object> uredjajiNaPopravku = new HashMap<>();
+    
     public ThingsOfFOI() {
     }
 
@@ -55,7 +64,6 @@ public class ThingsOfFOI {
     }
 
     public void inicijalizirajSustav(List<Mjesto> mjesta, List<Aktuator> aktuatori, List<Senzor> senzori, List<Raspored> raspored) {
-
         this.aktuators = new ArrayList<>(aktuatori);
         this.senzors = new ArrayList<>(senzori);
         this.mjesta = new ArrayList<>(mjesta);
@@ -63,13 +71,15 @@ public class ThingsOfFOI {
         //inicijalizirajMjesta();
 
         Obrada obrada = new Obrada();
-        boolean ispravan;
-        ArrayList<Aktuator> aktIspravni = new ArrayList<>();
-        ArrayList<Senzor> senIspravni = new ArrayList<>();
+        boolean ispravan;        
 
         for (Mjesto mjesto : this.mjesta) {
 
             ArrayList uredjaji = mjesto.getUredjaji();
+            
+            if (uredjaji.isEmpty()) {
+                continue;
+            }
 
             izlaz += "\n####################################\ninicijalizacija mjesta[" + mjesto.getNaziv().toUpperCase() + "]\n------------------------------------";
 
@@ -79,35 +89,20 @@ public class ThingsOfFOI {
                 if (ispravan) {
                     if (u.getClass().toString().contains("Aktuator")) {
                         Aktuator a = (Aktuator) u;
-                        aktIspravni.add(a);
                         izlaz += "\nAKTUATOR: " + a.getNaziv() + "[+]";
-                    } else {
+                    } else if(u.getClass().toString().contains("Senzor")){
                         Senzor s = (Senzor) u;
-                        senIspravni.add(s);
                         izlaz += "\nSENZOR: " + s.getNaziv() + "[+]";
                     }
                 } else {
-                    if (u.getClass().toString().contains("Aktuator")) {
-                        Aktuator a = (Aktuator) u;
-                        izlaz += "\nAKTUATOR: " + a.getNaziv() + "[-]";
-                    } else {
-                        Senzor s = (Senzor) u;
-                        izlaz += "\nSENZOR: " + s.getNaziv() + "[-]";
-                    }
+                    uredjajiNaPopravku.put(mjesto, u);
                 }
             }
-            aktIspravni.clear();
-            senIspravni.clear();
         }
-        //gornjiProzor = new GornjiProzor(br - brk, brs);
-        //donjiProzor = new DonjiProzor(br - brk + 1, brk);
-        //gornjiProzor.ocistiProzor();
-        //gornjiProzor.inicijaliziraj();
-        //RadnaDretva rd = new RadnaDretva(trajanje_ciklusa, br_ciklusa, algoritam);
-        //rd.start();
+        dajZamjenu();
     }
 
-    public void ispisPodatke(String podaci) {
+    public void ispisiPodatke(String podaci) {
         gornjiProzor = new GornjiProzor(br - brk, brs);
         donjiProzor = new DonjiProzor(br - brk + 1, brk);
         gornjiProzor.ocistiProzor();
@@ -116,8 +111,7 @@ public class ThingsOfFOI {
     }
 
     public void prikaziProzore() {
-
-        ObradaPodataka obradaPodataka = new ObradaPodataka();
+        ObradaPodataka obradaPodataka = new ObradaPodataka();;
         RadnaDretva rd = null;
         Caretaker caretaker = new Caretaker();
         Originator originator = new Originator();
@@ -125,13 +119,13 @@ public class ThingsOfFOI {
         //gornjiProzor.ocistiProzor();
         //gornjiProzor.inicijaliziraj();
         String linija = "", id = "", vraceniPodaci = "";
-        boolean kraj = false, svp = false;
+        boolean kraj = false, svp = false, dretva = false;
 
         do {
             String opcija = donjiProzor.cekajNaredbu(gornjiProzor.nastavak);
             String[] naredba = opcija.split(" ");
-
-            if (naredba[0].toUpperCase().equals("N") && gornjiProzor.nastavak == true) {
+            
+           if (naredba[0].toUpperCase().equals("N") && gornjiProzor.nastavak == true) {
                 GornjiProzor.brojac = 1;
                 gornjiProzor.ocistiProzor();
                 gornjiProzor.ispisi(null);
@@ -170,17 +164,20 @@ public class ThingsOfFOI {
                     gornjiProzor.ispisi("Aktuator ne postoji\n");
                 }
             } else if (naredba[0].equals("C") && naredba.length > 1) {
-                if (naredba[1].isEmpty() && !isItInteger(naredba[1])) {
+                if (naredba[1].isEmpty() && isItInteger(naredba[1]) == false) {
                     break;
                 }
                 int brc = Integer.parseInt(naredba[1]);
                 if (brc > 0 && brc <= 100) {
+                    dretva = true;
                     this.br_ciklusa = brc;
                     rd = new RadnaDretva(trajanje_ciklusa, br_ciklusa);
                     rd.start();
                     while (rd.isAlive()) {}
                     gornjiProzor.ispisi(izlaz);
                     svp = false;
+                }else{
+                    gornjiProzor.ispisi("krivi unos");
                 }
             } else if (naredba[0].equals("PI") && naredba.length > 1) {
                 if (naredba[1].isEmpty() && !isItInteger(naredba[1])) {
@@ -251,17 +248,23 @@ public class ThingsOfFOI {
                         }
                         break;
                     case "SP":
-                        if (rd != null) {
+                        if (rd != null && dretva) {
                             linija = rd.statistika();
-                            originator.set(linija);
-                            caretaker.dodajMemento(originator.spremiUMemento());
-                            gornjiProzor.ispisi("Podaci su spremljeni");
+                            originator.set(linija, mjesta, aktuators, senzors, rezervniUredjaji, uredjajiNaPopravku);
+                            caretaker.dodajMemento(originator.spremiUMemento());                            
+                            gornjiProzor.ispisi("Podaci su spremljeni");                            
                         }
                         break;
                     case "VP":
-                        if (rd != null) {
+                        if (rd != null && dretva) {
                             svp = true;
-                            vraceniPodaci = originator.vratiIzMementa(caretaker.vratiZadnjMemento());
+                            vraceniPodaci = originator.vratiStatistiku(caretaker.vratiZadnjiMemento());
+                            this.mjesta = new ArrayList<>(originator.vratiMjesta(caretaker.vratiZadnjiMemento()));
+                            this.aktuators =  new ArrayList<>(originator.vratiAktuatore(caretaker.vratiZadnjiMemento()));
+                            this.senzors =  new ArrayList<>(originator.vratiSenzore(caretaker.vratiZadnjiMemento()));
+                            this.rezervniUredjaji =  new ArrayList<>(originator.vratiRezervneUredjaje(caretaker.vratiZadnjiMemento()));
+                            this.uredjajiNaPopravku =  new HashMap<>(originator.vratiUredjajeNaPopravku(caretaker.vratiZadnjiMemento()));
+                            
                             gornjiProzor.ispisi("Podaci su vraceni");
                         }
                         break;
@@ -278,6 +281,35 @@ public class ThingsOfFOI {
                 }
             }
         } while (!kraj);
+    }
+    
+    public void dajZamjenu() {  
+        
+        Filter filterAktuatora = new FilterAktuatora();
+        Filter filterSenzora = new FilterSenzora();
+        
+        filterAktuatora.setNextFilter(filterSenzora);
+    
+        String zamjenaIspis = "MJESTO;ID_STARI;ID_NOVI;\n";
+        zamjenaIspis +="------;--------;-------;\n";
+        for (Map.Entry<Mjesto, Object> map : uredjajiNaPopravku.entrySet()) {
+
+            filterAktuatora.zamijeni(map.getKey(), map.getValue());//obradaPodataka.zamijeniUredjaj(map.getKey(), map.getValue());
+
+            zamjenaIspis += izlaz;
+
+        }
+        
+        //ispisiPodatke(zamjenaIspis);
+        
+    }
+    
+    public void dajPopravljeneUredjaje(){
+    
+        for (Map.Entry<Mjesto, Object> map : uredjajiNaPopravku.entrySet()) {
+            map.getKey().add(map.getValue());
+        }
+        
     }
 
     private boolean isItInteger(String number) {
@@ -402,5 +434,37 @@ public class ThingsOfFOI {
 
     public void setKpov(int kpov) {
         this.kpov = kpov;
+    }
+
+    public int getCp() {
+        return cp;
+    }
+
+    public void setCp(int cp) {
+        this.cp = cp;
+    }    
+    
+    public int getMax_br_ur() {
+        return max_br_ur;
+    }
+
+    public void setMax_br_ur(int max_br_ur) {
+        this.max_br_ur = max_br_ur;
+    }
+
+    public List<Object> getRezervniUredjaji() {
+        return rezervniUredjaji;
+    }
+
+    public void setRezervniUredjaji(List<Object> rezervniUredjaji) {
+        this.rezervniUredjaji = rezervniUredjaji;
+    }
+    
+    public void addAktuator(Aktuator akt){
+        aktuators.add(akt);
+    }
+    
+    public void addSenzor(Senzor sen){
+        senzors.add(sen);
     }
 }

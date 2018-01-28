@@ -7,8 +7,6 @@ package MVC.model.composite;
 
 import java.util.ArrayList;
 import java.util.List;
-import MVC.model.composite.Aktuator;
-import MVC.model.composite.Senzor;
 
 /**
  *
@@ -17,11 +15,13 @@ import MVC.model.composite.Senzor;
 public class Mjesto implements Component{
     private String naziv;
     private int tip, br_senzora, br_aktuatora, id;
-    private ArrayList uredjaji = new ArrayList();
-    private List<Mjesto> pod_mjesta = new ArrayList();
+    private final ArrayList uredjaji;
+    private final List<Mjesto> pod_mjesta;
     
 
     public Mjesto(String naziv, int tip, int br_senzora, int br_aktuatora, int id) {
+        this.pod_mjesta = new ArrayList();
+        this.uredjaji = new ArrayList();
         this.naziv = naziv;
         this.tip = tip;
         this.br_senzora = br_senzora;

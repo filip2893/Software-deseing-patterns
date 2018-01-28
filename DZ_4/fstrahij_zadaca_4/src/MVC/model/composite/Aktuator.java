@@ -103,7 +103,7 @@ public class Aktuator implements Cloneable, Component, Uredjaj{
 
     public void add(Senzor s) {
         senzori.add(s);
-    }
+    }    
 
     public List<Senzor> getSenzori() {
         return senzori;

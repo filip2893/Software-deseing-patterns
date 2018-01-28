@@ -5,10 +5,12 @@
  */
 package MVC.model;
 
+import MVC.controller.singleton.ThingsOfFOI;
 import MVC.model.composite.Aktuator;
 import MVC.model.composite.Mjesto;
 import MVC.model.composite.Senzor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,13 +18,14 @@ import java.util.List;
  * @author Filip
  */
 public class ObradaPodataka {
-
+    
     private BazaPodataka bp;
     private String linija = "";
     private Boolean ispravan;
     private Integer ID;
+    private ThingsOfFOI tof = ThingsOfFOI.getInstance();
 
-    public ObradaPodataka() {
+    public ObradaPodataka() { 
         bp = new BazaPodataka();
     }
 

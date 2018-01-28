@@ -13,21 +13,21 @@ import java.util.ArrayList;
  */
 public class Caretaker {
     
-    ArrayList<Memento> spremljeneStatistike = new ArrayList<Memento>();
+    ArrayList<Memento> spremljeno = new ArrayList<Memento>();
 
     public Caretaker() {
     }
     
     public void dodajMemento(Memento m){
-        spremljeneStatistike.add(m);
+        spremljeno.add(m);
     }
     
     public Memento vratiMemento(int index){
-        return spremljeneStatistike.get(index);
+        return spremljeno.get(index);
     }
     
-    public Memento vratiZadnjMemento(){
-        return spremljeneStatistike.get(spremljeneStatistike.size() -1);
+    public Memento vratiZadnjiMemento(){
+        return spremljeno.get(spremljeno.size() -1);
     }
     
 }

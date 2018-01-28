@@ -168,7 +168,7 @@ public class DatotekaRasporeda implements Datoteka {
                 }                
             }
             izlaz += "\n*NEISPRAVNI ZAPISI RASPOREDA:\n" +greske;
-            tof.ispisPodatke(greske);
+            tof.ispisiPodatke(greske);
         } catch (IOException ex) {
             Logger.getLogger(DatotekaRasporeda.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -32,6 +32,7 @@ public class Rasporedjivac {
     private String izlaz;
     private List<Aktuator> aktuatorsModel, aktuators;
     private List<Senzor> senzorsModel, senzors;
+    private List<Object> rezervniUredjaji =  new ArrayList<>();
     private List<Mjesto> mjesta;
     private List<Raspored> raspored;
     private HashMap<Integer, Aktuator> aktuatoriNovi;
@@ -88,6 +89,7 @@ public class Rasporedjivac {
     private void rasporedjivanjeMjesta() {
         Aktuator aktNovi;
         Senzor senNovi;
+        int max = 0;
         
         for (Raspored zapis : this.raspored) {
 
@@ -101,7 +103,8 @@ public class Rasporedjivac {
                         if (zapis.getVrsta() == 0) {
                             for (Senzor s : senzorsModel) {
 
-                                if ((mjesto.getTip() == s.getTip() || s.getTip() > 1) && zapis.getModelUredajajId() == s.getIdModel()) {
+                                if ((mjesto.getTip() == s.getTip() || s.getTip() > 1) 
+                                        && zapis.getModelUredajajId() == s.getIdModel()) {
  
                                     senNovi = new Senzor(s.getIdModel(), 
                                                             s.getNaziv(),
@@ -117,13 +120,21 @@ public class Rasporedjivac {
                                     senzors.add(senNovi);
 
                                     senzoriNovi.put(zapis.getUredjajId(), senNovi);
-
+                                    
+                                    if (zapis.getUredjajId() > max) {                                        
+                                        
+                                        max = zapis.getUredjajId();
+                                        
+                                    }
+                                }else{
+                                    rezervniUredjaji.add(s);
                                 }
                             }
                         } else if(zapis.getVrsta() == 1){
                             for (Aktuator a : aktuatorsModel) {
 
-                                if ((mjesto.getTip() == a.getTip() || a.getTip() > 1) && zapis.getModelUredajajId() == a.getIdModel()) {
+                                if ((mjesto.getTip() == a.getTip() || a.getTip() > 1) 
+                                        && zapis.getModelUredajajId() == a.getIdModel()) {
  
                                     aktNovi = new Aktuator(a.getIdModel(), 
                                                             a.getNaziv(),
@@ -140,6 +151,13 @@ public class Rasporedjivac {
 
                                     aktuatoriNovi.put(zapis.getUredjajId(), aktNovi);
 
+                                    if (zapis.getUredjajId() > max) {                                        
+                                        
+                                        max = zapis.getUredjajId();
+                                        
+                                    }
+                                }else{
+                                    rezervniUredjaji.add(a);
                                 }
                             }
                         }
@@ -150,6 +168,8 @@ public class Rasporedjivac {
                 }
             }
         }
+        tof.setRezervniUredjaji(rezervniUredjaji);
+        tof.setMax_br_ur(max);
         tof.setIzlaz(izlaz);
     }
 
